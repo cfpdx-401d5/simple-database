@@ -1,47 +1,52 @@
 {
-    "name": "simple-database",
-    "version": "1.0.0",
-    "description": "Simple database using json and system files.",
-    "main": "simpledb.js",
-    "directories": {
-        "test": "test"
-    },
-    "scripts": {
-        "pretest": "npm run lint",
-        "test": "simpledb.test.js",
-        "watch": "npm-scripts-watcher"
-    },
-    "watch": {
-        "{src,test}/**/*.js": ["test"]
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/krogseng/simple-database.git"
-    },
-    "keywords": [
-        "krogseng",
-        "dimple",
-        "database",
-        "lab"
-    ],
-    "author": "Lynn Krogseng",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/krogseng/simple-database/issues"
-    },
-    "homepage": "https://github.com/krogseng/simple-database#readme",
-    "onload-script": "eslint **/*.js",
-    "eslintConfig": {
-        "env": {
-            "browser": true,
-            "node": true
-        }
-    },
-    "email": "code@krogseng.com",
-    "devDependencies": {
-        "mkdirp": "^0.5.1",
-        "rimraf": "^2.5.4",
-        "shortid": "^2.2.6",
-        "npm-scripts-watcher": "^1.0.2"
+  "name": "simple-database",
+  "version": "1.0.0",
+  "description": "Simple database using json and system files.",
+  "main": "simpledb.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "pretest": "npm run lint",
+    "test": "simpledb.test.js",
+    "watch": "npm-scripts-watcher"
+  },
+  "watch": {
+    "{src,test}/**/*.js": [
+      "test"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/krogseng/simple-database.git"
+  },
+  "keywords": [
+    "krogseng",
+    "dimple",
+    "database",
+    "lab"
+  ],
+  "author": "Lynn Krogseng",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/krogseng/simple-database/issues"
+  },
+  "homepage": "https://github.com/krogseng/simple-database#readme",
+  "onload-script": "eslint **/*.js",
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "node": true
     }
+  },
+  "email": "code@krogseng.com",
+  "devDependencies": {
+    "mkdirp": "^0.5.1",
+    "rimraf": "^2.5.4",
+    "shortid": "^2.2.6",
+    "npm-scripts-watcher": "^1.0.2"
+  },
+  "dependencies": {
+    "shortid": "^2.2.6"
+  }
 }
