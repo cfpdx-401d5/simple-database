@@ -1,0 +1,24 @@
+{
+  "name": "simple-database-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "pretest": "npm run lint",
+    "test": "mocha",
+    "test:watch": "mocha -w",
+    "lint": "eslint . --ignore-pattern '/initial-concepts/*'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bhuneke/simple-database.git"
+  },
+  "author": "Brigitte Huneke",
+  "devDependencies": {
+    "eslint": "^3.14.0",
+    "mocha": "^3.2.0"
+  }
+}
