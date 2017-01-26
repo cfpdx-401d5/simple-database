@@ -1,0 +1,27 @@
+{
+  "name": "simple-database",
+  "version": "1.0.0",
+  "description": "a simple database",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "path": "^0.12.7",
+    "simpleid": "^1.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Clairefollett/simple-database.git"
+  },
+  "author": "Clairefollett",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Clairefollett/simple-database/issues"
+  },
+  "homepage": "https://github.com/Clairefollett/simple-database#readme"
+}
