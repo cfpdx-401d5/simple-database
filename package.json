@@ -22,7 +22,7 @@
   },
   "keywords": [
     "krogseng",
-    "dimple",
+    "simple",
     "database",
     "lab"
   ],
@@ -47,6 +47,8 @@
     "npm-scripts-watcher": "^1.0.2"
   },
   "dependencies": {
+    "mkdirp": "^0.5.1",
+    "rimraf": "^2.5.4",
     "shortid": "^2.2.6"
   }
 }
