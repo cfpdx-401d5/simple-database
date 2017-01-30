@@ -16,3 +16,12 @@ describe('test dbase.getAll interface', function() {
 	  });
 	});
 });
+
+describe('test dbase.save interface', function() {
+
+  it('adds a new file and id to the database', done => {
+    dbAdd.save('uff.txt', 'uff', (err, results) => {
+      
+    })
+  })
+})
