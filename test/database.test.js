@@ -1,19 +1,10 @@
 const database = require('../lib/database.js');
 const assert = require('assert');
 const fs = require('fs');
-const dbCreate = database.create('./test-dir');
+const db = database.create('./test-dir');
 const rimraf = require('rimraf');
 
-//var shortid = require('shortid');
-
-//console.log(shortid.generate());
-
 describe('delete and create directory', () => {
-    before(function() {
-        rimraf('./test/test-dir-create', function() {
-            console.log('deleted dir');
-        })
-    });
     it('checks that the directory does not exist', function(done) {
         fs.readdir('./test/test-dir-create', (err, files) => {
             assert.deepEqual(err.code, 'ENOENT');
@@ -32,13 +23,23 @@ describe('delete and create directory', () => {
     })
 });
 
-// describe('save file to simple database', () => {
-//     it('creates new directory')
-// });
+describe('save file to database', function() {
+    it('saves file in database', done => {
+        var testObj = {
+            name: 'testName'
+        };
+        db.save('./test/test-dir-create/file.txt', testObj, (err, obj) => {
+            if(err) return done(err);
+            assert.equal(obj.name, testObj.name);
+            assert.ok(obj._id);
+            done();
+        });
+    });
+});
 
-describe('simple directory app', function() {
+describe('get all file contents', function() {
     it('gets all file contents', done => {
-        dbCreate.getAll('./test/test-dir', (err, contents) => {
+        db.getAll('./test/test-dir', (err, contents) => {
             if (err) return done(err);
             assert.deepEqual( contents, ['BAR', 'FOO', 'QUX']);
 
@@ -48,3 +49,8 @@ describe('simple directory app', function() {
 
 })
 
+after(function() {
+    rimraf('./test/test-dir-create', function() {
+        console.log('deleted dir');
+    })
+});
