@@ -6,12 +6,7 @@ const mkdirp = require('mkdirp');
 const fs = require('fs');
 const simpleid = require('simpleid');
 
-const objectToSave = {name: "claire", _id: simpleid()};
-
-createDir.save('test-db', object, (err, result) => {
-    if (err) return console.log(err);
-    console.log(result);
-})
+const objectToSave = {name: "claire"};
 
 //describe('writing a new file', () => {
 
