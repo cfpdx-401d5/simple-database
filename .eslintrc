@@ -15,9 +15,10 @@
     "extends": "eslint:recommended",
     "rules": {
         "no-console": "off",
+        "no-mixed-spaces-and-tabs": "off",
         "indent": [
             "error",
-            2
+            "tab"
         ],
         "linebreak-style": [
             "error",
