@@ -2,12 +2,21 @@ const database = require('../lib/database.js');
 const assert = require('assert');
 const fs = require('fs');
 const dbCreate = database.create('./test-dir');
+const rimraf = require('rimraf');
 
-describe('directory exists', done => {
+//var shortid = require('shortid');
+
+//console.log(shortid.generate());
+
+describe('delete and create directory', () => {
+    before(function() {
+        rimraf('./test/test-dir-create', function() {
+            console.log('deleted dir');
+        })
+    });
     it('checks that the directory does not exist', function(done) {
         fs.readdir('./test/test-dir-create', (err, files) => {
-            if(err) return done(err);
-            assert.ifError(null);//passes when exists
+            assert.deepEqual(err.code, 'ENOENT');
 
             done(); 
         });
@@ -21,6 +30,10 @@ describe('directory exists', done => {
             done();
         });
     })
+});
+
+describe('save file to simple database', () => {
+    it('creates new directory')
 });
 
 describe('simple directory app', function() {
