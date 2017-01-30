@@ -1,9 +1,12 @@
 const simpleDb = require('../lib/simple-db');
 const assert = require('assert');
+const path = require('path');
+const rimraf = ('rimraf');
+const mkdirp = require('mkdirp');
+const fs = require('fs');
+const simpleid = require('simpleid');
 
-const createDir = simpleDb.create('./test-db');
-
-object = {name: "claire"};
+const objectToSave = {name: "claire", _id: simpleid()};
 
 createDir.save('test-db', object, (err, result) => {
     if (err) return console.log(err);
