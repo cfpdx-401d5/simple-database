@@ -25,7 +25,7 @@ describe('create a directory for database', function() {
 
     it('save db obj ', done => {
         var testObj = { "cat": "kitty" };
-        console.log('testobj', testObj);
+
         db.save('db-test-dir/objStore.json', testObj, (saved) => {
             var parsedObj = JSON.parse(saved);
             assert.ok(parsedObj.hasOwnProperty('_id'));
@@ -35,7 +35,7 @@ describe('create a directory for database', function() {
 
     });
 
-    // after(function() {
-    //   rimraf(testDir, cb);
-    //});
+    after(function() {
+        rimraf(testDir, cb);
+    });
 });
