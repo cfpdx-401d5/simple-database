@@ -32,9 +32,9 @@ describe('delete and create directory', () => {
     })
 });
 
-describe('save file to simple database', () => {
-    it('creates new directory')
-});
+// describe('save file to simple database', () => {
+//     it('creates new directory')
+// });
 
 describe('simple directory app', function() {
     it('gets all file contents', done => {
