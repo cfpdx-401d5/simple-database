@@ -10,20 +10,32 @@ var cb = function() {
     console.log('Problem with file removal');
 };
 
+
 describe('create a directory for database', function() {
+    const testDir = 'db-test-dir';
+    const db = createDb(testDir);
+
     it('create new db object', done => {
-        createDb('pickle', obj, (err, newDir) => {
+        createDb(testDir, obj, (err, newDir) => {
             if (err) return done(err);
-            assert.deepEqual(newDir, 'pickle');
+            assert.deepEqual(newDir, 'db-test-dir');
         });
         done();
     });
 
-    it('save db obj ', function() {
+    it('save db obj ', done => {
+        var testObj = { "cat": "kitty" };
+        console.log('testobj', testObj);
+        db.save('db-test-dir/objStore.json', testObj, (saved) => {
+            var parsedObj = JSON.parse(saved);
+            assert.ok(parsedObj.hasOwnProperty('_id'));
+            assert.equal(testObj.cat, parsedObj.cat);
+            done();
+        });
 
     });
 
-    after(function() {
-        rimraf('./pickle', cb);
-    });
+    // after(function() {
+    //   rimraf(testDir, cb);
+    //});
 });
