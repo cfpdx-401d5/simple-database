@@ -41,7 +41,33 @@ describe('simple db', function() {
         });
     });
 
+    it('updates file in database', done => {
+        testObj.name = 'newTestName';
+        db.update('./test/test-dir-create', testObj, (err, obj) => {
+            if(err) return done(err);
+            assert.deepEqual(obj.name, testObj.name);
+            
+            done();
+        });
+
+        testObj.name ='testName';
+    });
+
+    it('removes file in database', done => {
+        var testRemoveObj = {
+            name: 'testRemoveName'
+        };
+        db.save('./test/test-dir-create/removefile.txt', testRemoveObj, (err, obj) => {});
+        db.remove('./test/test-dir-create', testRemoveObj._id, (err, obj) => {
+            if(err) return done(err);
+
+            assert.deepEqual(obj.name, undefined);
+            done();
+        });
+    });
+
     it('get file based on id', done => {
+
         db.get('./test/test-dir-create/', testObj._id, (err, obj) => {
             if(err) return done(err);
             assert.deepEqual(obj.name, testObj.name);
