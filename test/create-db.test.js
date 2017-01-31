@@ -5,14 +5,18 @@ const fs = require('fs');
 const path = require('path');
 const mkdirp = require('mkdirp');
 const rimraf = require('rimraf');
+const testDir = path.join('db-test-dir');
 var obj = { "cat": "kitty" };
 var cb = function() {
     console.log('Problem with file removal');
 };
 
+after(function() {
+    rimraf(testDir, cb);
+});
 
 describe('create a directory for database', function() {
-    const testDir = 'db-test-dir';
+
     const db = createDb(testDir);
 
     it('create new db object', done => {
@@ -25,22 +29,43 @@ describe('create a directory for database', function() {
 
     it('save db obj ', done => {
         var testObj = { "cat": "kitty" };
-        console.log('testobj', testObj);
-        db.save('db-test-dir/objStore.json', testObj, (saved) => {
+
+        db.save('db-test-dir/objStore.json', testObj, (_, saved) => {
             var parsedObj = JSON.parse(saved);
             assert.ok(parsedObj.hasOwnProperty('_id'));
             assert.equal(testObj.cat, parsedObj.cat);
             done();
         });
+    });
 
+    it('save more obj files ', done => {
+        var testObj = { "dog": "rover" };
+        db.save('db-test-dir/dogStore.json', testObj, (_, saved) => {
+            var parsedObj = JSON.parse(saved);
+            //why does this fail?
+            //assert.equal(testObj.dog, parsedObj.dog);
+            assert.equal('rover', parsedObj.dog);
+            //done();
+        });
+
+        var testObj = { "horse": "jazz" };
+        db.save('db-test-dir/horseStore.json', testObj, (_, saved) => {
+            var parsedObj = JSON.parse(saved);
+            assert.equal(testObj.horse, parsedObj.horse);
+            done();
+        });
+    });
+
+    it('get all the directories', done => {
+        db.getAll('db-test-dir', (err, contents) => {
+            if (err) return done(err);
+            assert.deepEqual(contents, ['dogStore.json', 'horseStore.json', 'objStore.json']);
+            done();
+        });
     });
 
     it('get db obj with id', done => {
-        console.log('getting with id');
-        done();
-    });
 
-    after(function() {
-        rimraf(testDir, cb);
+        done();
     });
 });
