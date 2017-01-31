@@ -35,7 +35,12 @@ describe('create a directory for database', function() {
 
     });
 
-    // after(function() {
-    //   rimraf(testDir, cb);
-    //});
+    it('get db obj with id', done => {
+        console.log('getting with id');
+        done();
+    });
+
+    after(function() {
+        rimraf(testDir, cb);
+    });
 });
