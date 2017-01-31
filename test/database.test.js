@@ -75,15 +75,17 @@ describe('simple db', function() {
             done();
         });
     });
-});
 
-describe('get all file contents', function() {
     it('gets all file contents', done => {
-        db.getAll('./test/test-dir', (err, contents) => {
+        db.getAll('./test/test-dir-create/', (err, contents) => {
             if (err) return done(err);
-            assert.deepEqual( contents, ['BAR', 'FOO', 'QUX']);
+            assert.deepEqual( contents, [JSON.stringify(testObj)]);
 
             done();
         });
     });
 });
+
+
+
+
