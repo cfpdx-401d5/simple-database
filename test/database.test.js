@@ -16,7 +16,7 @@ describe('delete and create directory', () => {
             done(); 
         });
     });
-    
+
     it('creates directory', function() {
         database.create('./test/test-dir-create');
         fs.readdir('./test/test-dir-create', (err,files) => {
@@ -28,11 +28,11 @@ describe('delete and create directory', () => {
     });
 });
 
-describe('save file to database', function() {
+describe('simple db', function() {
+    var testObj = {
+        name: 'testName'
+    };
     it('saves file in database', done => {
-        var testObj = {
-            name: 'testName'
-        };
         db.save('./test/test-dir-create/file.txt', testObj, (err, obj) => {
             if(err) return done(err);
             assert.equal(obj.name, testObj.name);
@@ -40,13 +40,16 @@ describe('save file to database', function() {
             done();
         });
     });
-});
 
-// describe('update file in database', function() {
-//     it('updates file based on id', done => {
-//         db.update('./test/test-dir-create/file.txt')
-//     });
-// });
+    it('get file based on id', done => {
+        db.get('./test/test-dir-create/', testObj._id, (err, obj) => {
+            if(err) return done(err);
+            assert.deepEqual(obj.name, testObj.name);
+
+            done();
+        });
+    });
+});
 
 describe('get all file contents', function() {
     it('gets all file contents', done => {
