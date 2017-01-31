@@ -4,6 +4,10 @@ const fs = require('fs');
 const db = database.create('./test-dir');
 const rimraf = require('rimraf');
 
+before(done => {
+    rimraf('./test/test-dir-create', () => done());
+});
+
 describe('delete and create directory', () => {
     it('checks that the directory does not exist', function(done) {
         fs.readdir('./test/test-dir-create', (err, files) => {
@@ -12,6 +16,7 @@ describe('delete and create directory', () => {
             done(); 
         });
     });
+    
     it('creates directory', function() {
         database.create('./test/test-dir-create');
         fs.readdir('./test/test-dir-create', (err,files) => {
@@ -20,7 +25,7 @@ describe('delete and create directory', () => {
 
             done();
         });
-    })
+    });
 });
 
 describe('save file to database', function() {
@@ -37,6 +42,12 @@ describe('save file to database', function() {
     });
 });
 
+// describe('update file in database', function() {
+//     it('updates file based on id', done => {
+//         db.update('./test/test-dir-create/file.txt')
+//     });
+// });
+
 describe('get all file contents', function() {
     it('gets all file contents', done => {
         db.getAll('./test/test-dir', (err, contents) => {
@@ -46,11 +57,4 @@ describe('get all file contents', function() {
             done();
         });
     });
-
-})
-
-after(function() {
-    rimraf('./test/test-dir-create', function() {
-        console.log('deleted dir');
-    })
 });
