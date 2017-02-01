@@ -1,74 +1,80 @@
+// create a db if it doesn't exist
+"use strict";
+// make a module for each of the steps in api?
 // get tools
-const assert = require('assert');
-const createDb = require('../lib/create-db');
 const fs = require('fs');
 const path = require('path');
 const mkdirp = require('mkdirp');
-const rimraf = require('rimraf');
-const testDir = path.join('db-test-dir');
-var obj = { "cat": "kitty" };
-var cb = function() {
-    console.log('Problem with file removal');
-};
+const shortid = require('shortid');
+const table = process.argv[2];
+const obj = process.argv[3];
+const cb = process.stdout.write('callback ');
+//const results = [];
 
-after(function() {
-    rimraf(testDir, cb);
-});
+module.exports = function createDb(dir) {
+    //if (!path.dirname(dir)) {
+    mkdirp(dir);
+    //if (err) return cb(err);
+    // };
 
-describe('create a directory for database', function() {
+    return {
+        // save the database object and return with new id
+        save: function(dir, obj, cb) {
+            const filePath = path.join('db-test-dir/more.json');
+            if (obj._id) return cb({ error: "Object already exists" });
 
-    const db = createDb(testDir);
+            obj._id = shortid.generate();
+            var jObj = JSON.stringify(obj);
 
-    it('create new db object', done => {
-        createDb(testDir, obj, (err, newDir) => {
-            if (err) return done(err);
-            assert.deepEqual(newDir, 'db-test-dir');
-        });
-        done();
-    });
+            fs.writeFile(dir, jObj, (err) => {
+                if (err) {
+                    console.log('Write error on ', jObj);
+                }
 
-    it('save db obj ', done => {
-        var testObj = { "cat": "kitty" };
+                return cb(null, jObj);
+            }); // end writeFile
+        }, // end save
+
+        update: function(dir, objId, cb) {
+            const results = [];
+            fs.readFile(filePath, (err, data) => {
+                    if (err) return (err);
+                    // read, parse, save to results, push new, stringify, write
+                    // first test filePath
+                    results.push(JSON.parse(data));
+
+                    let whatLength = results.push(jObj);
+
+                    fs.writeFile('db-test-dir/more.json', jObj, (err) => {
+                        if (err) {
+                            console.log('Write error on ', jObj);
+                        }
+                        return cb(jObj);
+                    }); // end writeFile
+                    return (null, results);
+                }) //end readfile
+        }, // end update
+
+        get: function(dir, objId, cb) {
+            let tempO = { holder: "from get" };
+            return (tempO);
+        },
+
+        remove: function(dir, objId, cb) {
+            let tempO = { holder: "from remove" };
+            return (tempO);
+        },
+        // get an object using table name and id
+        getAll: function getAllDirContents(dir, cb) {
+                fs.readdir(dir, (err, files) => {
+                    if (err) return cb(err);
+                    cb(null, files);
+                });
+            } // end getAll
 
 
-        db.save('db-test-dir/objStore.json', testObj, (_, saved) => {
+    }; // end return on createDb
+}; //module exports return
 
-            var parsedObj = JSON.parse(saved);
-            assert.ok(parsedObj.hasOwnProperty('_id'));
-            assert.equal(testObj.cat, parsedObj.cat);
-            done();
-        });
-    });
-
-    it('save more obj files ', done => {
-        var testObj = { "dog": "rover" };
-        db.save('db-test-dir/dogStore.json', testObj, (_, saved) => {
-            var parsedObj = JSON.parse(saved);
-            //why does this fail?
-            //assert.equal(testObj.dog, parsedObj.dog);
-            assert.equal('rover', parsedObj.dog);
-            //done();
-        });
-
-        var testObj = { "horse": "jazz" };
-        db.save('db-test-dir/horseStore.json', testObj, (_, saved) => {
-            var parsedObj = JSON.parse(saved);
-            assert.equal(testObj.horse, parsedObj.horse);
-            done();
-        });
-    });
-
-    it('get all the directories', done => {
-        db.getAll('db-test-dir', (err, contents) => {
-            if (err) return done(err);
-            assert.deepEqual(contents, ['dogStore.json', 'horseStore.json', 'objStore.json']);
-            done();
-        });
-
-    });
-
-    it('get db obj with id', done => {
-
-        done();
-    });
-});
+//createDb(process.argv[2], process.argv[3], cb);
+//var aNewDir = createDb(table, obj, cb);
