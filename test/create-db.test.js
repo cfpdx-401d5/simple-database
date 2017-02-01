@@ -1,80 +1,95 @@
-// create a db if it doesn't exist
-"use strict";
-// make a module for each of the steps in api?
 // get tools
+const assert = require('assert');
+const createDb = require('../lib/create-db');
 const fs = require('fs');
 const path = require('path');
 const mkdirp = require('mkdirp');
-const shortid = require('shortid');
-const table = process.argv[2];
-const obj = process.argv[3];
-const cb = process.stdout.write('callback ');
-//const results = [];
+const rimraf = require('rimraf');
+const testDir = path.join('db-test-dir');
 
-module.exports = function createDb(dir) {
-    //if (!path.dirname(dir)) {
-    mkdirp(dir);
-    //if (err) return cb(err);
-    // };
+// is this a bad thing
+const testUpdate = require('./special-object.js');
 
-    return {
-        // save the database object and return with new id
-        save: function(dir, obj, cb) {
-            const filePath = path.join('db-test-dir/more.json');
-            if (obj._id) return cb({ error: "Object already exists" });
+const cb = function() {
+    console.log('Problem with file removal');
+};
 
-            obj._id = shortid.generate();
-            var jObj = JSON.stringify(obj);
+after(function() {
+    rimraf(testDir, cb);
+});
 
-            fs.writeFile(dir, jObj, (err) => {
-                if (err) {
-                    console.log('Write error on ', jObj);
-                }
+describe('create a directory for database', function() {
 
-                return cb(null, jObj);
-            }); // end writeFile
-        }, // end save
+    const db = createDb(testDir);
 
-        update: function(dir, objId, cb) {
-            const results = [];
-            fs.readFile(filePath, (err, data) => {
-                    if (err) return (err);
-                    // read, parse, save to results, push new, stringify, write
-                    // first test filePath
-                    results.push(JSON.parse(data));
+    it('create new db object', done => {
+        createDb(testDir, (err, newDir) => {
+            if (err) return done(err);
+            assert.deepEqual(newDir, 'db-test-dir');
+        });
+        done();
+    });
 
-                    let whatLength = results.push(jObj);
+    it('save db obj ', done => {
+        const testObj = { "cat": "kitty" };
 
-                    fs.writeFile('db-test-dir/more.json', jObj, (err) => {
-                        if (err) {
-                            console.log('Write error on ', jObj);
-                        }
-                        return cb(jObj);
-                    }); // end writeFile
-                    return (null, results);
-                }) //end readfile
-        }, // end update
+        db.save('db-test-dir/objStore.json', testObj, (_, saved) => {
+            let parsedObj = JSON.parse(saved);
+            assert.ok(parsedObj.hasOwnProperty('_id'));
+            assert.equal(testObj.cat, parsedObj.cat);
+            done();
+        });
+    });
 
-        get: function(dir, objId, cb) {
-            let tempO = { holder: "from get" };
-            return (tempO);
-        },
-
-        remove: function(dir, objId, cb) {
-            let tempO = { holder: "from remove" };
-            return (tempO);
-        },
-        // get an object using table name and id
-        getAll: function getAllDirContents(dir, cb) {
-                fs.readdir(dir, (err, files) => {
-                    if (err) return cb(err);
-                    cb(null, files);
-                });
-            } // end getAll
+    it('save another obj files ', done => {
+        let testObj = { "dog": "rover" };
+        db.save('db-test-dir/dogStore.json', testObj, (_, saved) => {
+            var parsedObj = JSON.parse(saved);
+            assert.equal(testObj.dog, parsedObj.dog);
+            done();
+        });
+    });
 
 
-    }; // end return on createDb
-}; //module exports return
+    it('save one more obj file', done => {
+        let testObj = { "horse": "jazz" };
+        db.save('db-test-dir/horseStore.json', testObj, (_, saved) => {
+            var parsedObj = JSON.parse(saved);
+            assert.equal(testObj.horse, parsedObj.horse);
+            done();
+        });
+    });
 
-//createDb(process.argv[2], process.argv[3], cb);
-//var aNewDir = createDb(table, obj, cb);
+    it('update an object with id', done => {
+
+        let testObj = { "dog": "rover" };
+        testObj._id = 'updaterId';
+        testUpdate('db-test-dir/', 'updateStore', testObj, (err, result) => {
+            done();
+        });
+        testObj.newProp = "furry";
+
+        db.update('db-test-dir/updateStore.json', testObj, (err, result) => {
+            process.stdout.write(`result ${result}`);
+            assert.ok(result.hasOwnProperty('newProp'));
+            done();
+
+        });
+    });
+
+    it('get all the directories', done => {
+        db.getAll('db-test-dir', (err, contents) => {
+            if (err) return done(err);
+            assert.deepEqual(contents, ['dogStore.json', 'horseStore.json', 'objStore.json'], 'updateStore.json');
+            done();
+        });
+
+    });
+
+    it('get db obj with id', done => {
+
+        done();
+    });
+
+
+});
