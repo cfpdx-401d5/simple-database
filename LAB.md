@@ -48,5 +48,5 @@ Standard repository/dev stuff: README, package.json, travis-ci, tests, meaningfu
 
 * Tests: 3pts
 * Async Coding: 3pts
-* Functional Correct Behavior: 1pts
-* Project (Module) Organization: 1pts
+* Functional Correct Behavior: 2pts
+* Project (Module) Organization: 2pts
