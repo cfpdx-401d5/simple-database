@@ -14,8 +14,9 @@ const cb = function() {
     console.log('Problem with file removal');
 };
 
-after(function() {
-    rimraf(testDir, cb);
+before(function(done) {
+    rimraf(testDir, done);
+
 });
 
 describe('create a directory for database', function() {
@@ -61,35 +62,53 @@ describe('create a directory for database', function() {
     });
 
     it('update an object with id', done => {
-
         let testObj = { "dog": "rover" };
-        testObj._id = 'updaterId';
-        testUpdate('db-test-dir/', 'updateStore', testObj, (err, result) => {
-            done();
-        });
-        testObj.newProp = "furry";
 
-        db.update('db-test-dir/updateStore.json', testObj, (err, result) => {
-            process.stdout.write(`result ${result}`);
-            assert.ok(result.hasOwnProperty('newProp'));
-            done();
+        db.save('db-test-dir/updateStore.json', testObj, (_, saved) => {
+            testObj = JSON.parse(saved);
 
+            testObj.newProp = "furry";
+
+            db.update('updateStore', testObj, (err, result) => {
+                assert.ok(result.hasOwnProperty('newProp'));
+                done();
+            });
         });
     });
 
     it('get all the directories', done => {
         db.getAll('db-test-dir', (err, contents) => {
             if (err) return done(err);
-            assert.deepEqual(contents, ['dogStore.json', 'horseStore.json', 'objStore.json'], 'updateStore.json');
+            assert.deepEqual(contents, ['dogStore.json', 'horseStore.json', 'objStore.json', 'updateStore.json']);
             done();
         });
 
     });
 
     it('get db obj with id', done => {
+        let testObj = { "horse": "jazz" };
+        db.save('db-test-dir/getStore.json', testObj, (_, saved) => {
+            testObj = JSON.parse(saved);
 
-        done();
+            db.get('getStore', testObj._id, (err, result) => {
+                assert.deepEqual(testObj, result);
+                done();
+            });
+        });
+
     });
 
+    it('remove one object by id', done => {
+        let testObj = { "lizard": "rover" };
+        db.save('remStore', testObj, (_, saved) => {
+            let parsedObj = JSON.parse(saved);
+
+            db.remove('db-test-dir/remStore.json', parsedObj._id, (err, result) => {
+
+                assert.ok(1, result);
+                done();
+            });
+        })
+    });
 
 });
