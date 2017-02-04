@@ -1,39 +1,39 @@
 const database = require('../lib/database.js');
 const assert = require('assert');
 const fs = require('fs');
-const db = database.create('./test-dir');
 const rimraf = require('rimraf');
 
+const directory = './test/test-database';
+let db = null;
+
 before(done => {
-    rimraf('./test/test-dir-create', () => done());
+    rimraf(directory, () => done());
+});
+
+before(() => {
+    db = database.create(directory);
 });
 
 describe('delete and create directory', () => {
-    it('checks that the directory does not exist', function(done) {
-        fs.readdir('./test/test-dir-create', (err, files) => {
-            assert.deepEqual(err.code, 'ENOENT');
 
-            done(); 
-        });
-    });
-
-    it('creates directory', function() {
-        database.create('./test/test-dir-create');
-        fs.readdir('./test/test-dir-create', (err,files) => {
+    it('creates directory', function(done) {
+        fs.readdir(directory, (err,files) => {
             if(err) return done(err);
-            assert.equal(files, []);
+            assert.deepEqual(files, []);
 
             done();
         });
     });
+
 });
 
 describe('simple db', function() {
     var testObj = {
         name: 'testName'
     };
+
     it('saves file in database', done => {
-        db.save('./test/test-dir-create/file.txt', testObj, (err, obj) => {
+        db.save('file', testObj, (err, obj) => {
             if(err) return done(err);
             assert.equal(obj.name, testObj.name);
             assert.ok(obj._id);
@@ -43,32 +43,31 @@ describe('simple db', function() {
 
     it('updates file in database', done => {
         testObj.name = 'newTestName';
-        db.update('./test/test-dir-create', testObj, (err, obj) => {
+        db.update('file', testObj, (err, obj) => {
             if(err) return done(err);
-            assert.deepEqual(obj.name, testObj.name);
-            
+            assert.deepEqual(obj.name, 'newTestName');
             done();
-        });
-
-        testObj.name ='testName';
+        }); 
     });
 
     it('removes file in database', done => {
         var testRemoveObj = {
             name: 'testRemoveName'
         };
-        db.save('./test/test-dir-create/removefile.txt', testRemoveObj, (err, obj) => {});
-        db.remove('./test/test-dir-create', testRemoveObj._id, (err, obj) => {
+        db.save('removefile', testRemoveObj, (err, obj) => {
             if(err) return done(err);
+            db.remove('removefile', obj._id, (err, isRemoved) => {
+                if(err) return done(err);
 
-            assert.deepEqual(obj.name, undefined);
-            done();
+                assert.equal(isRemoved, 1);
+                done();
+            });
         });
+
     });
 
     it('get file based on id', done => {
-
-        db.get('./test/test-dir-create/', testObj._id, (err, obj) => {
+        db.get('file', testObj._id, (err, obj) => {
             if(err) return done(err);
             assert.deepEqual(obj.name, testObj.name);
 
@@ -77,9 +76,9 @@ describe('simple db', function() {
     });
 
     it('gets all file contents', done => {
-        db.getAll('./test/test-dir-create/', (err, contents) => {
+        db.getAll(directory, (err, contents) => {
             if (err) return done(err);
-            assert.deepEqual( contents, [JSON.stringify(testObj)]);
+            assert.deepEqual( contents, [testObj]);
 
             done();
         });
