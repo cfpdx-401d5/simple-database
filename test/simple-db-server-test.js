@@ -1,6 +1,6 @@
 const assert = require('assert');
 const net = require('net');
-const server = require('../lib/db-server');
+const server = require('../lib/simple-db-server');
 const rimraf = require('rimraf');
 const mkdirp = require('mkdirp');
 
@@ -40,12 +40,12 @@ describe.only('db server', () => {
         })
     });
 
-    it('client getsAll "pets"', done => {
+    //it('client getsAll "pets"', done => {
         // construct our message
-        const message = {
-            method: 'getAll',
-            table: 'pets'
-        };
+        //const message = {
+            //method: 'getAll',
+            //table: 'pets'
+        //};
 
         // this is setting up the test, to listen 
         // to the response that should come back from 
@@ -125,5 +125,3 @@ describe.only('db server', () => {
 
         client.write(JSON.stringify(message));
     });
-
-});
