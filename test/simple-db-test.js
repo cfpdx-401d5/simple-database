@@ -1,32 +1,44 @@
-const simpleDb = require('../lib/simple-db');
 const assert = require('assert');
-const path = require('path');
-const rimraf = ('rimraf');
-const mkdirp = require('mkdirp');
 const fs = require('fs');
+const rimraf = require('rimraf');
 const simpleid = require('simpleid');
 
-const objectToSave = {name: "claire"};
+const simpleDb = require('../lib/simple-db');
 
-//describe('writing a new file', () => {
+const db = simpleDb.create('./test-dir');
 
-    //it('make new file', done => {
+// before(done => {
+//     fs.stat(testDir, (err, stats) => {
+//         assert.equal(null, err);
+//         done();
+//     });
+// });
 
-        //simpleDb.create('../index', (err, result) => {
-            //if(err) done(err);
+// after(done => {
+//     fs.stat(testDir, (err, stats) => {
+//         assert.equal(null, err);
+//         done();
+//     });
+// });
+before(done => {
+    rimraf('./test/created-dir', () => done());
+});
 
-            //assert.deepEqual(result, [
-                //'{"name":"claire","_id":"G6F779BKKRA"}'
-           // ]);
-            //done();
-        //});
-    //});
+describe('creates and deletes directory', () => {
+    it('checks if directory is created', function() {
+        simpleDb.create('./test/created-dir');
+        fs.readdir('./test/created-dir', (err, files) => {
+            if(err) return done(err);
+            assert.equal(files, []);
 
-    //it('err on un-made file', done => {
-        //simpleDb.create('../index', (err, result) => {
-            //if(err) done();
-           // else done('expected a return error');
-       // })
-    //})
-//})
+            done();
+        });
+    });
+    it('deletes the directory or actually checks to see if it exists', () => {
+        fs.readdir('./test/created-dir', (err, files) => {
+            assert.deepEqual(err.code, 'ENOENT');
 
+            done();
+        });
+    });
+});
