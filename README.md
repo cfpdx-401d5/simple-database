@@ -1,0 +1,1 @@
+Simple-Database is a basic 'flat file' database that uses JSON files and the Node file system.

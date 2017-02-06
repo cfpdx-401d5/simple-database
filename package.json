@@ -1,0 +1,27 @@
+{
+  "name": "Simple-Database",
+  "version": "1.0.0",
+  "description": "simple database product",
+  "main": "run.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "pretest": "npm run lint",
+    "test": "mocha",
+    "test:watch": "npm run test -- -w",
+    "lint": "eslint . --ignore-pattern '/initial-concepts/*'"
+  },
+  "author": "Tom Shultz",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^3.14.0",
+    "mocha": "^3.2.0",
+    "nodemon": "^1.11.0"
+  },
+  "dependencies": {
+    "mkdirp": "^0.5.1",
+    "rimraf": "^2.5.4",
+    "shortid": "^2.2.6"
+  }
+}
