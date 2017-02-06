@@ -10,6 +10,8 @@ and [parse](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Gl
 ##Description:
 This assignment will have you create a very simple database using json files and the file system.
 
+**You are strongly encouraged to pair on this assignment**
+
 ## Testing
 You should use TDD to drive the implementation. Note that these are E2E tests. You can write unit tests
 if you have identifyable modules that can be tested (you may not). 
@@ -37,7 +39,7 @@ Your file store should:
       * returns array of all objects
 * Use an npm package to find a library to assign id's
 * Use the supplied table name as a folder to store object in
-* Use JSON.parse and JSON.serialize
+* Use `JSON.parse` and `JSON.stringify`
 
 
 Standard repository/dev stuff: README, package.json, travis-ci, tests, meaningful commits, named npm scripts, etc.
