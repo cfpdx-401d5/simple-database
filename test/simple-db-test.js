@@ -7,19 +7,15 @@ const simpleDb = require('../lib/simple-db');
 
 const db = simpleDb.create('./test-dir');
 
-// before(done => {
-//     fs.stat(testDir, (err, stats) => {
-//         assert.equal(null, err);
-//         done();
-//     });
-// });
+const testObject = {
+    name: 'test'
+};
 
-// after(done => {
-//     fs.stat(testDir, (err, stats) => {
-//         assert.equal(null, err);
-//         done();
-//     });
-// });
+const removeTestObject = {
+    name: 'remove'
+};
+
+
 before(done => {
     rimraf('./test/created-dir', () => done());
 });
@@ -41,4 +37,24 @@ describe('creates and deletes directory', () => {
             done();
         });
     });
+});
+
+describe('saves, updates, gets, gets all, and removes file', function() {
+    it('saves file', done => {
+        db.save('./test/created-dir/index.txt', testObject, (err, object) => {
+            if(err) return done(err);
+            assert.equal(object.name, testObject.name);
+            done();
+        });
+    });
+    it('updates file', done => {
+        testObject.name = 'hello';
+        db.update('./test/created-dir', testObject, (err, object) => {
+            if(err) return done(err);
+            assert.deepEqual(object.name, testObject.name);
+            done();
+        });
+
+        testObject.name = 'test';
+    })
 });
