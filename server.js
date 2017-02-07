@@ -6,5 +6,5 @@ const TEST_DIR = './test/test-dir-create';
 server.start({
     baseDir: TEST_DIR,
     port: PORT },
-    () => { console.log('server.start'); }
+    () => { console.log(`server started on port ${PORT}`); }
 );
