@@ -2,7 +2,7 @@ const net = require('net');
 const assert = require('chai').assert;
 const server = require('../lib/basic-server');
 
-describe('echo server', () => {
+describe.skip('echo server', () => {
 
     const port = 65000;
 
