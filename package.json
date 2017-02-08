@@ -7,8 +7,8 @@
     "test": "test"
   },
   "scripts": {
-    "pretest": "npm run lint",
-    "test": "simpledb.test.js",
+    "pretest": "eslint",
+    "test": "mocha",
     "watch": "npm-scripts-watcher"
   },
   "watch": {
@@ -43,6 +43,7 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "mkdirp": "^0.5.1",
+    "mocha": "^3.2.0",
     "npm-scripts-watcher": "^1.0.2",
     "rimraf": "^2.5.4",
     "shortid": "^2.2.6"
