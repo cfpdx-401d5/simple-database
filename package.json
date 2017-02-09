@@ -1,0 +1,27 @@
+{
+  "name": "simple-database-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha",
+    "test:watch": "mocha -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bhuneke/simple-database.git"
+  },
+  "author": "Brigitte Huneke",
+  "devDependencies": {
+    "eslint": "^3.14.0",
+    "mocha": "^3.2.0",
+    "rimraf": "^2.5.4"
+  },
+  "dependencies": {
+    "mkdirp": "^0.5.1",
+    "shortid": "^2.2.6"
+  }
+}
