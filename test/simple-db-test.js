@@ -65,4 +65,19 @@ describe('updates database', () => {
         })
     });
 });
-80a798bf57f6ab45576cc4af4a2eeebfabb27203
+
+describe('gets database', () => {
+    it('starts with a saved object', (done) => {
+         db.save('getting', testThree, (err, result) => {
+            assert.equal(testThree.message, 'yo')
+            done();
+        })
+    });
+
+    it('returns the saved object with that id', (done) => {
+            db.get('getting', testThree._id, (err, result) => {
+            assert.equal(result._id, testThree._id);
+            done();
+        });
+    });
+});
