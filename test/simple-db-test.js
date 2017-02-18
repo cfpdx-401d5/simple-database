@@ -21,6 +21,7 @@ before(done => {
 });
 
 describe('creates and deletes directory', () => {
+    
     it('checks if directory is created', function() {
         simpleDb.create('./test/created-dir');
         fs.readdir('./test/created-dir', (err, files) => {
@@ -30,6 +31,7 @@ describe('creates and deletes directory', () => {
             done();
         });
     });
+    
     it('deletes the directory or actually checks to see if it exists', () => {
         fs.readdir('./test/created-dir', (err, files) => {
             assert.deepEqual(err.code, 'ENOENT');
@@ -40,6 +42,7 @@ describe('creates and deletes directory', () => {
 });
 
 describe('saves, updates, gets, gets all, and removes file', function() {
+    
     it('saves file', done => {
         db.save('./test/created-dir/index.txt', testObject, (err, object) => {
             if(err) return done(err);
@@ -47,6 +50,7 @@ describe('saves, updates, gets, gets all, and removes file', function() {
             done();
         });
     });
+    
     it('updates file', done => {
         testObject.name = 'hello';
         db.update('./test/created-dir', testObject, (err, object) => {
@@ -56,5 +60,5 @@ describe('saves, updates, gets, gets all, and removes file', function() {
         });
 
         testObject.name = 'test';
-    })
+    });
 });
