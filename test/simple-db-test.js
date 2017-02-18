@@ -48,3 +48,21 @@ describe('creates and deletes directory', () => {
         })
     });
 });
+
+describe('updates database', () => {
+    it('starts with the object we saved and updates', (done) => {
+        db.save('update', testTwo, (err, results) => {
+            assert.equal(testTwo.message, 'hello');
+            done();
+        })
+    })
+    it('updates object', (done) => {
+        process.stdout.write('changes messaged of testTwo object');
+        testTwo.addProperty = 'updating';
+        db.update('update', testTwo, (err, reslut) => {
+            assert.equal(testTwo.addProperty, 'updating');
+            done();
+        })
+    });
+});
+80a798bf57f6ab45576cc4af4a2eeebfabb27203
