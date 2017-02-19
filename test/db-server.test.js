@@ -1,17 +1,18 @@
 const assert = require('assert');
 const net = require('net');
 const rimraf = require('rimraf');
+const path = require('path');
 
-const server = require('../lib/simple-db');
+const server = require('../lib/db-server');
 
 const PORT = 65000;
 const DATA = './test/data';
 
 describe('database TCP server', () => {
 
-    // before(done => {
-    //     rimraf(DATA, () => done());
-    // });
+    before(done => {
+        rimraf(DATA, () => done());
+    });
 
     before(done => {
         server.start({
@@ -21,17 +22,13 @@ describe('database TCP server', () => {
         );
     });
 
-    after(done => {
-        client.end(done);
-        server.stop();
-    });
-
     let client;
+
     before(done => {
-        client = net.connect({port: PORT}, () => {
+        client = net.connect({ port: PORT }, () => {
             client.setEncoding('utf8');
             done();
-        });
+        })
     });
 
     let saved;
@@ -52,7 +49,7 @@ describe('database TCP server', () => {
             assert.ok(saved._id);
             done();
         });
-    var msg = JSON.stringify(message);
-    client.write(msg);
+
+        client.write(JSON.stringify(message));
     });
 });
