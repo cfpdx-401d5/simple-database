@@ -22,7 +22,7 @@ var testFour = {
     message: 'tesing 123'
 }
 var testFive = {
-    message: 'last one'
+    message: 'testing'
 }
 
 
@@ -77,6 +77,15 @@ describe('gets database', () => {
     it('returns the saved object with that id', (done) => {
             db.get('getting', testThree._id, (err, result) => {
             assert.equal(result._id, testThree._id);
+            done();
+        });
+    });
+});
+
+describe('gets all', function(){
+    it('returns an array of all objects from findMe', done => {
+        db.getAll('hello', (err, contents) => {
+            assert.deepEqual(['testing', 'testing'], [testOne.message, testFive.message]);
             done();
         });
     });
