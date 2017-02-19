@@ -103,6 +103,7 @@ describe('database TCP server', () => {
         client.once('data', data => {
             const response = JSON.parse(data);
             assert.equal(response.data.color, 'brown');
+            assert.equal(response.data.age, 5);
             done();
         });
 
