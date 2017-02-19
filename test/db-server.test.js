@@ -87,7 +87,7 @@ describe('database TCP server', () => {
         client.write(JSON.stringify(message));
     });
 
-    it('lets the client update a saved object', done => {
+    it('user can update a saved object', done => {
         const message = {
             method: 'update',
             table: 'schnoodles',
@@ -104,6 +104,22 @@ describe('database TCP server', () => {
             const response = JSON.parse(data);
             assert.equal(response.data.color, 'brown');
             assert.equal(response.data.age, 5);
+            done();
+        });
+
+        client.write(JSON.stringify(message));
+    });
+    
+    it('user can remove an object', done => {
+        const message = {
+            method: 'remove',
+            table: 'schnoodles',
+            data: saved._id
+        };
+
+        client.once('data', data => {
+            const response = JSON.parse(data);
+            assert.equal(response.data, 1);
             done();
         });
 
