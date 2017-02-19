@@ -18,6 +18,9 @@ before(function(done) {
     rimraf(testDir, done);
 
 });
+after(function(done) {
+    rimraf(testDir, done);
+});
 
 describe('create a directory for database', function() {
 
