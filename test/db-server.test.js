@@ -53,7 +53,7 @@ describe('database TCP server', () => {
         client.write(JSON.stringify(message));
     });
 
-    it('client gets data', done => {
+    it('user can get specific data', done => {
             const message = {
             method: 'get',
             table: 'schnoodles',
@@ -67,6 +67,21 @@ describe('database TCP server', () => {
             assert.deepEqual(got._id, saved._id);
 
             done();
+        });
+
+        client.write(JSON.stringify(message));
+    });
+
+    it('lets the client getAll the saved objects', done => {
+        const message = {
+            method: 'getAll',
+            table: 'schnoodles'
+        };
+
+        client.once('data', data => {
+            const response = JSON.parse(data);
+            assert.deepEqual(response.data, [saved]);
+            done()
         });
 
         client.write(JSON.stringify(message));
