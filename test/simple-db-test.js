@@ -19,7 +19,7 @@ var testThree = {
     message: 'yo'
 }
 var testFour = {
-    message: 'tesing 123'
+    message: 'testing 123'
 }
 var testFive = {
     message: 'testing'
@@ -67,7 +67,7 @@ describe('updates database', () => {
 });
 
 describe('gets database', () => {
-    it('starts with a saved object', (done) => {
+    it('saving object first', (done) => {
          db.save('getting', testThree, (err, result) => {
             assert.equal(testThree.message, 'yo')
             done();
@@ -88,5 +88,21 @@ describe('gets all', function(){
             assert.deepEqual(['testing', 'testing'], [testOne.message, testFive.message]);
             done();
         });
+    });
+});
+
+describe('database.remove', () => {
+    it('saves an object and assigns id', (done) => {
+        db.save('removing', testFour, (err, result) => {
+            assert.equal(testFour.message, 'testing 123');
+            done();
+        })
+    });
+
+    it('removes test', (done) => {
+        db.remove('removing', testFour._id, (err, result) => {
+            assert.equal(1, result);
+            done();
+        })
     });
 });
