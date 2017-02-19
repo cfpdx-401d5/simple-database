@@ -52,4 +52,23 @@ describe('database TCP server', () => {
 
         client.write(JSON.stringify(message));
     });
+
+    it('client gets data', done => {
+            const message = {
+            method: 'get',
+            table: 'schnoodles',
+            data: saved._id
+        };
+
+        client.once('data', data => {
+            const response = JSON.parse(data);
+            const got = response.data;
+
+            assert.deepEqual(got._id, saved._id);
+
+            done();
+        });
+
+        client.write(JSON.stringify(message));
+    });
 });
