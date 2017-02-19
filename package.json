@@ -1,15 +1,15 @@
 {
     "name": "simple-database",
     "version": "1.0.0",
-    "description": "Simple database using json and system files.",
-    "main": "simpledb.js",
+    "description": "Simple TCP Server for simple database.",
+    "main": "./lib/simple-server.js",
     "directories": {
         "test": "test"
     },
     "scripts": {
-        "pretest": "eslint",
-        "test": "mocha",
-        "watch": "npm-scripts-watcher"
+        "lint": "eslint .",
+        "pretest": "eslint {lib, test}/**/*.js",
+        "test": "mocha"
     },
     "watch": {
         "{src,test}/**/*.js": [
@@ -32,13 +32,6 @@
         "url": "https://github.com/krogseng/simple-database/issues"
     },
     "homepage": "https://github.com/krogseng/simple-database#readme",
-    "onload-script": "eslint **/*.js",
-    "eslintConfig": {
-        "env": {
-            "browser": true,
-            "node": true
-        }
-    },
     "email": "code@krogseng.com",
     "devDependencies": {
         "chai": "^3.5.0",
