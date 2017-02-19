@@ -86,4 +86,26 @@ describe('database TCP server', () => {
 
         client.write(JSON.stringify(message));
     });
+
+    it('lets the client update a saved object', done => {
+        const message = {
+            method: 'update',
+            table: 'schnoodles',
+            data: {
+                name: 'breezy',
+                type: 'schnoodle',
+                _id: saved._id,
+                color: 'brown',
+                age: 5
+            }
+        };
+
+        client.once('data', data => {
+            const response = JSON.parse(data);
+            assert.equal(response.data.color, 'brown');
+            done();
+        });
+
+        client.write(JSON.stringify(message));
+    });
 });
