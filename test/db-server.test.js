@@ -9,4 +9,50 @@ const DATA = './test/data';
 
 describe('database TCP server', () => {
 
+    // before(done => {
+    //     rimraf(DATA, () => done());
+    // });
+
+    before(done => {
+        server.start({
+            baseDir: DATA,
+            port: PORT },
+            () => {done();}
+        );
+    });
+
+    after(done => {
+        client.end(done);
+        server.stop();
+    });
+
+    let client;
+    before(done => {
+        client = net.connect({port: PORT}, () => {
+            client.setEncoding('utf8');
+            done();
+        });
+    });
+
+    let saved;
+
+    it('lets user save an object', done => {
+        const message = {
+            method: 'save',
+            table: 'schnoodles',
+            data: {
+                name: 'breezy',
+                type: 'schnoodle'
+            }
+        };
+
+        client.once('data', data => {
+            const response = JSON.parse(data);
+            saved = response.data;
+            assert.ok(saved._id);
+            done();
+        });
+    var msg = JSON.stringify(message);
+    client.write(msg);
+    });
 });
