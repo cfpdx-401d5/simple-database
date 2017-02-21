@@ -7,7 +7,6 @@
         "test": "test"
     },
     "scripts": {
-        "lint": "eslint .",
         "pretest": "eslint {lib, test}/**/*.js",
         "test": "mocha"
     },
@@ -36,11 +35,8 @@
     "devDependencies": {
         "chai": "^3.5.0",
         "eslint": "^3.15.0",
-        "mkdirp": "^0.5.1",
         "mocha": "^3.2.0",
-        "npm-scripts-watcher": "^1.0.2",
-        "rimraf": "^2.5.4",
-        "shortid": "^2.2.6"
+        "npm-scripts-watcher": "^1.0.2"
     },
     "dependencies": {
         "mkdirp": "^0.5.1",
