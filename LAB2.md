@@ -43,3 +43,4 @@ Standard repository/dev stuff: README, package.json, travis-ci, tests, meaningfu
 * Tests: 4pts
 * Correct TCP Behavior: 3pts
 * TCP Server Organization/Style: 2pts
+* TCP Server Organization/Style: 3pts

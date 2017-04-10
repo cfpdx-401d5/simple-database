@@ -30,7 +30,7 @@ Your file store should:
     * `.update(<table>, <objectToSave>)`
       * returns `<objectToSave>`
       * error if object does not have id property, or id does not exist
-    * `.remove(<id>, cb)`
+    * `.remove(<table>, <id>, cb)`
       * returns number of files removed
     * `.get(<table>, <id>, cb)`
       * returns object with that id
@@ -48,5 +48,5 @@ Standard repository/dev stuff: README, package.json, travis-ci, tests, meaningfu
 
 * Tests: 3pts
 * Async Coding: 3pts
-* Functional Correct Behavior: 1pts
-* Project (Module) Organization: 1pts
+* Functional Correct Behavior: 2pts
+* Project (Module) Organization: 2pts
