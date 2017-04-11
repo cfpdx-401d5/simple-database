@@ -24,19 +24,29 @@ the implementation.
 Your file store should:
 * Live under a directory configurable at startup
 * Have the following API (interface):
+    
     * `.save(<table>, <objectToSave>, cb)`
       * returns `objectToSave` with added `_id` property
       * error if object already has id
+      
     * `.update(<table>, <objectToSave>)`
       * returns `<objectToSave>`
       * error if object does not have id property, or id does not exist
+<<<<<<< HEAD
     * `.remove(<table>, <id>, cb)`
+=======
+    
+    * `.remove(<id>, cb)`
+>>>>>>> mizutombo
       * returns number of files removed
+    
     * `.get(<table>, <id>, cb)`
       * returns object with that id
       * else return `null`
+    
     * `.getAll(<table>, cb)`
       * returns array of all objects
+
 * Use an npm package to find a library to assign id's
 * Use the supplied table name as a folder to store object in
 * Use `JSON.parse` and `JSON.stringify`
